@@ -5,7 +5,7 @@ class MoxRouter {
 
     private $hooks = Array('before_route' => Array(), 'after_route' => Array());
 
-    protected $notFound;
+    private $notFound;
 
     public function __call($method, $arguments) {
         return call_user_func_array(Closure::bind($this->$method, $this, get_called_class()), $arguments);
@@ -76,7 +76,7 @@ class MoxRouter {
         $this->notFound = $function;
     }
 
-    public function loadPlugins($directory){
+    public function autoLoader($directory){
         spl_autoload_register(function ($className) use($directory) {
             if(is_file($directory .'/'. $className . '.php')){
                 include $directory .'/' . $className . '.php';
