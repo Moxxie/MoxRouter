@@ -11,7 +11,7 @@ require('MoxRouter.php');
 $router = new MoxRouter();
 
 // Index route
-$router->add('/', function({
+$router->add('/', function(){
   echo "Hello World!";
 });
 
