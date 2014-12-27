@@ -1,7 +1,7 @@
 MoxRouter
 =========
 
-A super simple PHP router
+A super simple and fast PHP router
 
 ## Usage
 ```php
@@ -50,6 +50,9 @@ $router->after(function(){
 $router->notFound(function(){
   echo "Woopsie, the page you are looking for is missing...";
 });
+
+//Simple autoLoader usage
+$router->autoLoad('path/to/directory');
 
 //Simple DI usage
 $router->someClass = new SomeClass();
