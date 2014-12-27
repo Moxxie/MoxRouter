@@ -36,6 +36,16 @@ class myClass{
   }
 }
 
+//Hooks
+//You can have as many hooks as you want.
+$route->before(function(){
+  echo "This will execute before the router";
+});
+
+$route->after(function(){
+  echo "This will execute after the router";
+});
+
 // Run the router
 $router->run();
 ```
