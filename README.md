@@ -38,23 +38,23 @@ class myClass{
 
 //Hooks
 //You can have as many hooks as you want.
-$route->before(function(){
+$router->before(function(){
   echo "This will execute before the router";
 });
 
-$route->after(function(){
+$router->after(function(){
   echo "This will execute after the router";
 });
 
 //You can ovveride the default 404 handler
-$route->notFound(function(){
+$router->notFound(function(){
   echo "Woopsie, the page you are looking for is missing...";
 });
 
 //Simple DI usage
-$route->someClass = new SomeClass();
-$route->add('/di', function() use($route){
-  echo $route->someClass->someMethod();
+$router->someClass = new SomeClass();
+$router->add('/di', function() use($router){
+  echo $router->someClass->someMethod();
 });
 
 // Run the router
