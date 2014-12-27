@@ -46,6 +46,11 @@ $route->after(function(){
   echo "This will execute after the router";
 });
 
+//You can ovveride the default 404 handler
+$route->notFound(function(){
+  echo "Woopsie, the page you are looking for is missing...";
+});
+
 // Run the router
 $router->run();
 ```
