@@ -51,6 +51,12 @@ $route->notFound(function(){
   echo "Woopsie, the page you are looking for is missing...";
 });
 
+//Simple DI usage
+$route->someClass = new SomeClass();
+$route->add('/di', function() use($route){
+  echo $route->someClass->someMethod();
+});
+
 // Run the router
 $router->run();
 ```
