@@ -7,6 +7,10 @@ class MoxRouter {
 
     protected $notFound;
 
+    public function __call($method, $arguments) {
+        return call_user_func_array(Closure::bind($this->$method, $this, get_called_class()), $arguments);
+    }
+
     public function add($route, $function, $class = false){
         if(empty($route)){
             throw new Exception('The route can not be empty');
