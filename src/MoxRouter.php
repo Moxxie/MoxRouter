@@ -75,4 +75,12 @@ class MoxRouter {
     public function notFound($function){
         $this->notFound = $function;
     }
+
+    public function loadPlugins($directory){
+        spl_autoload_register(function ($className) use($directory) {
+            if(is_file($directory .'/'. $className . '.php')){
+                include $directory .'/' . $className . '.php';
+            }
+        });
+    }
 }
