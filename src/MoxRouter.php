@@ -1,4 +1,7 @@
 <?php
+/*
+ * Created by Jonathan Lindberg. me@jonathanlindberg.com
+ */
 class MoxRouter {
 
     private $routes = Array();
