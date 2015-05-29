@@ -53,7 +53,7 @@ $router->notFound(function(){
 });
 
 //Simple autoLoader usage
-$router->autoLoad('path/to/directory');
+$router->autoLoader('path/to/directory');
 
 //Simple DI usage
 $router->someClass = new SomeClass();
