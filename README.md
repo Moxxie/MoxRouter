@@ -48,6 +48,7 @@ $router->after(function(){
 
 //You can ovveride the default 404 handler
 $router->notFound(function(){
+  http_response_code(404);
   echo "Woopsie, the page you are looking for is missing...";
 });
 
