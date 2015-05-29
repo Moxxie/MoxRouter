@@ -31,15 +31,17 @@ class MoxRouter {
 
     public function run(){
         $uri = $_SERVER['REQUEST_URI'];
-        if(strpos($uri, "/", strlen($uri) - strlen("/")) === FALSE){
-            $uri .= "/";
-        }
+
+        rtrim($uri, "/");
+        $uri .= "/";
+
         $found = false;
         foreach($this->routes as $route){
             $path = $route['path'];
-            if(strpos($path, "/", strlen($path) - strlen("/")) === FALSE){
-                $path .= "/";
-            }
+
+            rtrim($path, "/");
+            $path .= "/";
+
             $string = str_replace("/", "\/", $path);
             $pattern = "/(\{)(.*?)(\})/";
             $replacementKeys = "\{(.*)\}";
