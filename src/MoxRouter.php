@@ -10,6 +10,8 @@ class MoxRouter {
 
     private $notFound;
 
+    public $baseUri = "/";
+
     public function __call($method, $arguments) {
         return call_user_func_array(Closure::bind($this->$method, $this, get_called_class()), $arguments);
     }
@@ -18,7 +20,7 @@ class MoxRouter {
         if(empty($route)){
             throw new Exception('The route can not be empty');
         }
-        $this->routes[] = Array('path' => $route, 'function' => $function, 'class' => $class);
+        $this->routes[] = Array('path' => $this->baseUri . ltrim($route, "/"), 'function' => $function, 'class' => $class);
     }
 
     public function before($function){
@@ -45,7 +47,7 @@ class MoxRouter {
             $string = str_replace("/", "\/", $path);
             $pattern = "/(\{)(.*?)(\})/";
             $replacementKeys = "\{(.*)\}";
-            $replacementValues = "([A-z]+)";
+            $replacementValues = "([A-z0-9]+)";
 
             preg_match("/".preg_replace($pattern, $replacementKeys, $string)."/", $path, $keys);
             preg_match("/".preg_replace($pattern, $replacementValues, $string)."/", $uri, $values);
