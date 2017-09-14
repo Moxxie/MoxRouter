@@ -1,5 +1,10 @@
 {
   "name": "moxxie/moxrouter",
   "version": "0.1.1",
-  "license": "MIT"
+  "license": "MIT",
+  "autoload": {
+    "psr-0": {
+      "HelloWorld": "src/"
+    }
+  }
 }
