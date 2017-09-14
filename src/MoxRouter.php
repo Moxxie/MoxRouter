@@ -2,6 +2,8 @@
 /*
  * Created by Jonathan Lindberg. me@jonathanlindberg.com
  */
+namespace Moxxie;
+
 class MoxRouter {
 
     private $routes = Array();
