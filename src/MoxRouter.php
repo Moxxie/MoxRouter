@@ -33,7 +33,7 @@ class MoxRouter {
         $this->add('GET', $route, $function, $class);
     }
     public function post($route, $function, $class = false){
-        $this->add('GET', $route, $function, $class);
+        $this->add('POST', $route, $function, $class);
     }
 
     public function before($function){
