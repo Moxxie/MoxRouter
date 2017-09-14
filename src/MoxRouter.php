@@ -18,11 +18,22 @@ class MoxRouter {
         return call_user_func_array(Closure::bind($this->$method, $this, get_called_class()), $arguments);
     }
 
-    public function add($route, $function, $class = false){
+    private function add($method, $route, $function, $class = false){
         if(empty($route)){
             throw new Exception('The route can not be empty');
         }
-        $this->routes[] = Array('path' => $this->baseUri . ltrim($route, "/"), 'function' => $function, 'class' => $class);
+        $this->routes[] = [
+            'path' => $this->baseUri . ltrim($route, "/"),
+            'function' => $function, 'class' => $class,
+            'method' => $method
+        ];
+    }
+
+    public function get($route, $function, $class = false){
+        $this->add('GET', $route, $function, $class);
+    }
+    public function post($route, $function, $class = false){
+        $this->add('GET', $route, $function, $class);
     }
 
     public function before($function){
@@ -54,7 +65,7 @@ class MoxRouter {
             preg_match("/".preg_replace($pattern, $replacementKeys, $string)."/", $path, $keys);
             preg_match("/".preg_replace($pattern, $replacementValues, $string)."/", $uri, $values);
 
-            if(is_array($values) && isset($values[0]) && $values[0] == $uri && is_array($keys) && isset($keys[0]) && $keys[0] == $path){
+            if(is_array($values) && isset($values[0]) && $values[0] == $uri && is_array($keys) && isset($keys[0]) && $keys[0] == $path && $_SERVER['REQUEST_METHOD'] == $route['method']){
                 $found = true;
                 unset($values[0]);
                 foreach($this->hooks['before_route'] as $hook){
