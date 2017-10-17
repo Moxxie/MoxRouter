@@ -35,6 +35,15 @@ class MoxRouter {
     public function post($route, $function, $class = false){
         $this->add('POST', $route, $function, $class);
     }
+    public function put($route, $function, $class = false){
+        $this->add('PUT', $route, $function, $class);
+    }
+    public function delete($route, $function, $class = false){
+        $this->add('DELETE', $route, $function, $class);
+    }
+    public function patch($route, $function, $class = false){
+        $this->add('PATCH', $route, $function, $class);
+    }
 
     public function before($function){
         $this->hooks['before_route'][] = $function;
@@ -46,7 +55,7 @@ class MoxRouter {
 
     public function run(){
         $uri = $_SERVER['REQUEST_URI'];
-
+        if(strpos($uri, "?") !== -1) $uri = substr($uri, 0, (strpos($uri, "?")));
         rtrim($uri, "/");
         $uri .= "/";
 
