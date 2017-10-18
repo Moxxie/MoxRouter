@@ -55,21 +55,21 @@ class MoxRouter {
 
     public function run(){
         $uri = $_SERVER['REQUEST_URI'];
-        if(strpos($uri, "?") !== -1) $uri = substr($uri, 0, (strpos($uri, "?")));
-        rtrim($uri, "/");
+        if(strpos($uri, "?") !== false) $uri = substr($uri, 0, (strpos($uri, "?")));
+        $uri = rtrim($uri, "/");
         $uri .= "/";
 
         $found = false;
         foreach($this->routes as $route){
             $path = $route['path'];
 
-            rtrim($path, "/");
+            $path = rtrim($path, "/");
             $path .= "/";
 
             $string = str_replace("/", "\/", $path);
             $pattern = "/(\{)(.*?)(\})/";
             $replacementKeys = "\{(.*)\}";
-            $replacementValues = "([A-z0-9]+)";
+            $replacementValues = "([A-z0-9\-\_]+)";
 
             preg_match("/".preg_replace($pattern, $replacementKeys, $string)."/", $path, $keys);
             preg_match("/".preg_replace($pattern, $replacementValues, $string)."/", $uri, $values);
