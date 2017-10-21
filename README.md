@@ -3,73 +3,42 @@ MoxRouter
 
 A super simple and fast PHP router
 
+## Installation
+
+It's recommended that you use [Composer](https://getcomposer.org/) to install MoxRouter.
+
+```bash
+$ composer require moxxie/moxrouter "^0.2.0"
+```
 ## Usage
+
+Create an index.php file with the following contents:
+
 ```php
 <?php
-require('MoxRouter.php');
-
-$router = new MoxRouter();
-
-// Index route
-$router->add('/', function(){
-  echo "Hello World!";
+require 'vendor/autoload.php';
+ 
+$router = new Moxxie\MoxRouter();
+ 
+$router->get('/{message}', function($message){
+  echo "Hello " . $message . "!";
 });
-
-// Passing parameters
-$router->add('/hello/{name}', function($name){
-  echo "Hello " . $name;
-});
-
-//Routing to a specific function
-$router->add('/function/{name}', 'myFunction');
-
-function myFunction($name){
-  echo "Hello " . $name;
-}
-
-//Routing to a function in a class
-$router->add('/class/function/{name}', 'myFunction', 'myClass');
-
-class myClass{
-  function myFunction($name){
-    echo "Hello " . $name;
-  }
-}
-
-//Hooks
-//You can have as many hooks as you want.
-$router->before(function(){
-  echo "This will execute before the router";
-});
-
-$router->after(function(){
-  echo "This will execute after the router";
-});
-
-//You can ovveride the default 404 handler
-$router->notFound(function(){
-  http_response_code(404);
-  echo "Woopsie, the page you are looking for is missing...";
-});
-
-//Simple autoLoader usage
-$router->autoLoader('path/to/directory');
-
-//Simple DI usage
-$router->someClass = new SomeClass();
-$router->add('/di', function() use($router){
-  echo $router->someClass->someMethod();
-});
-
-// Run the router
+ 
 $router->run();
 ```
 
-##License
+You can test this using the built-in server that comes with PHP:
+```bash
+$ php -S localhost:8000
+```
+
+http://localhost:8000/world will now display "Hello, world!".
+
+## License
 
 (MIT License)
 
-Copyright (c) 2014 Jonathan Lindberg me@jonathanlindberg.com
+Copyright (c) 2017 Moxxie - https://github.com/Moxxie/MoxRouter
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
