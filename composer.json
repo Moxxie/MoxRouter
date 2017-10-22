@@ -2,7 +2,7 @@
   "name": "moxxie/moxrouter",
   "version": "0.2.1",
   "license": "MIT",
-  "autoload": {cd re  
+  "autoload": {
     "psr-4": {"Moxxie\\": "src/"}
   }
 }
