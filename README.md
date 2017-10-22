@@ -109,6 +109,18 @@ $router->notFound(function(){
 });
 ```
 
+### Rewrite all requests to MoxRouter
+Apache .htaccess
+```htaccess
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L]
+```
+Nginx
+```nginx
+try_files $uri /index.php;
+```
+
 ## License
 
 (MIT License)
