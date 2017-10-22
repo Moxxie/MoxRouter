@@ -111,7 +111,7 @@ $router->notFound(function(){
 
 ### Rewrite all requests to MoxRouter
 Apache .htaccess
-```htaccess
+```apache
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php [L]
