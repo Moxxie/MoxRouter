@@ -8,7 +8,7 @@ class MoxRouter {
 
   private $routes = [];
 
-  private $hooks = ['before_route' => [], 'after_route' => []];
+  private $hooks = ['before_route' => false, 'after_route' => false];
 
   private $notFound;
 
@@ -55,11 +55,11 @@ class MoxRouter {
   }
 
   public function before($function){
-    $this->hooks['before_route'][] = $function;
+    $this->hooks['before_route'] = $function;
   }
 
   public function after($function){
-    $this->hooks['after_route'][] = $function;
+    $this->hooks['after_route'] = $function;
   }
 
   public function run($container = false){
@@ -71,6 +71,10 @@ class MoxRouter {
 
     $uri = rtrim($uri, '/');
 
+    if($this->hooks['before_route'] !== false){
+      call_user_func(\Closure::bind($this->hooks['before_route'], $this));
+    }
+
     $found = false;
     foreach($this->routes as $route){
       if($_SERVER['REQUEST_METHOD'] !== $route['method']) continue;
@@ -80,21 +84,21 @@ class MoxRouter {
       $pattern = '/^' . preg_replace("/(\{)(.*?)(\})/", "([A-z0-9\-\_]+)", $string) . '$/';
       $match = preg_match($pattern, $uri, $values);
 
-      if($match === 1){
+      if($match === 1 && is_callable($route['function'])){
         $found = true;
+
         unset($values[0]);
-        foreach($this->hooks['before_route'] as $hook){
-          call_user_func(\Closure::bind($hook, $this));
-        }
 
         call_user_func_array(\Closure::bind($route['function'], $this), $values);
 
-        foreach($this->hooks['after_route'] as $hook){
-          call_user_func(\Closure::bind($hook, $this));
-        }
         break;
       }
     }
+
+    if($this->hooks['after_route'] !== false){
+      call_user_func(\Closure::bind($this->hooks['after_route'], $this));
+    }
+
     if(!$found){
       if(is_callable($this->notFound)){
         die(call_user_func($this->notFound));
