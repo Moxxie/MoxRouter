@@ -23,8 +23,11 @@ class MoxRouter {
     throw new \Exception("Call to undefined method: " . $method);
   }
 
-  public function addContainer($name, $function){
-    $this->container[$name] = $function;
+  public function __get($name) {
+    if(isset($this->container[$name])){
+      return $this->container[$name];
+    }
+    throw new \Exception("Call to undefined property: " . $name);
   }
 
   private function add($method, $route, $function){
