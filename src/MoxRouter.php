@@ -56,6 +56,9 @@ class MoxRouter {
   public function patch($route, $function, $class = false){
     $this->add('PATCH', $route, $function, $class);
   }
+  public function custom($type, $route, $function, $class = false){
+    $this->add($type, $route, $function, $class);
+  }
 
   public function before($function){
     $this->hooks['before_route'] = $function;
