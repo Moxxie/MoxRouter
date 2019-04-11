@@ -85,9 +85,22 @@ class MoxRouter {
     foreach($this->routes as $route){
       if($_SERVER['REQUEST_METHOD'] !== $route['method']) continue;
 
-      $path = rtrim($route['path'], '/');
-      $string = str_replace('/', "\/", $path);
-      $pattern = '/^' . preg_replace("/(\{)(.*?)(\})/", "([A-z0-9\-\_]+)", $string) . '$/';
+      $path = trim($route['path'], '/');
+
+      $parts = explode('/', $path);
+
+      $pattern = "/^";
+      foreach ($parts as $part){
+        if(strpos($part, '?}') !== false){
+          $pattern .= preg_replace('/(\{)(.*?)(\})/', "(?>\/([A-z0-9\-\_]+))?", $part);
+        }elseif (strpos($part, '}')){
+          $pattern .= preg_replace('/(\{)(.*?)(\})/', "(?>\/([A-z0-9\-\_]+))", $part);
+        }else{
+          $pattern .= "\/$part";
+        }
+      }
+      $pattern .= "$/";
+
       $match = preg_match($pattern, $uri, $values);
 
       if($match === 1 && is_callable($route['function'])){
