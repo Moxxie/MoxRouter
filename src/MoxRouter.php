@@ -92,9 +92,9 @@ class MoxRouter {
       $pattern = "/^";
       foreach ($parts as $part){
         if(strpos($part, '?}') !== false){
-          $pattern .= preg_replace('/(\{)(.*?)(\})/', "(?>\/([A-z0-9\-\_]+))?", $part);
+          $pattern .= preg_replace('/(\{)(.*?)(\})/', "(?>\/([A-z0-9\-\_\.]+))?", $part);
         }elseif (strpos($part, '}')){
-          $pattern .= preg_replace('/(\{)(.*?)(\})/', "(?>\/([A-z0-9\-\_]+))", $part);
+          $pattern .= preg_replace('/(\{)(.*?)(\})/', "(?>\/([A-z0-9\-\_\.]+))", $part);
         }else{
           $pattern .= "\/$part";
         }
