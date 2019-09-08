@@ -71,8 +71,9 @@ class MoxRouter {
   public function run($container = false){
     if($container !== false) $this->container = $container;
 
-    $uri = $_SERVER['REQUEST_URI'];
+    $rawUri = $_SERVER['REQUEST_URI'];
 
+    $uri = $rawUri;
     if(($pos = strpos($uri, "?")) !== false) $uri = substr($uri, 0, $pos);
 
     $uri = rtrim($uri, '/');
@@ -84,6 +85,14 @@ class MoxRouter {
     $found = false;
     foreach($this->routes as $route){
       if($_SERVER['REQUEST_METHOD'] !== $route['method']) continue;
+
+      if($route['path'] === $rawUri && is_callable($route['function'])){
+        $found = true;
+
+        call_user_func(\Closure::bind($route['function'], $this));
+
+        break;
+      }
 
       $path = trim($route['path'], '/');
 
